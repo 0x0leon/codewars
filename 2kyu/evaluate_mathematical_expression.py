@@ -1,11 +1,16 @@
+import codewars_test as test
+
+
 class TreeNode:
     def __init__(self, value):
         self.value = value
         self.left = None
         self.right = None
 
+
 def is_operator(c):
     return c in ['+', '-', '*', '/']
+
 
 def is_unary_minus(tokens, index):
     if tokens[index] != '-':
@@ -16,6 +21,7 @@ def is_unary_minus(tokens, index):
         return True
     return False
 
+
 def precedence(op, is_unary):
     if op == '-' and is_unary:
         return 3  # Unary minus has higher precedence
@@ -24,6 +30,7 @@ def precedence(op, is_unary):
     if op in ['*', '/']:
         return 2
     return 0
+
 
 def tokenize(expression):
     tokens = []
@@ -40,6 +47,7 @@ def tokenize(expression):
     if number:
         tokens.append(number)
     return tokens
+
 
 def infix_to_postfix(tokens):
     stack = []
@@ -62,6 +70,7 @@ def infix_to_postfix(tokens):
         postfix.append(stack.pop())
     return postfix
 
+
 def build_expression_tree(postfix):
     stack = []
     for token in postfix:
@@ -70,10 +79,12 @@ def build_expression_tree(postfix):
         elif is_operator(token):
             node = TreeNode(token)
             node.right = stack.pop()
-            if not is_unary_minus(postfix, len(postfix) - len(stack) - 1):  # Check if it's unary minus
+            # Check if it's unary minus
+            if not is_unary_minus(postfix, len(postfix) - len(stack) - 1):
                 node.left = stack.pop()
             stack.append(node)
     return stack.pop()
+
 
 def evaluate_tree(node):
     if node is None:
@@ -96,6 +107,7 @@ def evaluate_tree(node):
     elif node.value == '/':
         return left_val / right_val
 
+
 def print_tree(node, level=0):
     if node is not None:
         print_tree(node.right, level + 1)
@@ -117,7 +129,6 @@ def calc(expression):
 # result = evaluate_tree(tree)
 
 
-import codewars_test as test
 @test.describe("Sample tests")
 def _():
     @test.it("Tests")
@@ -135,4 +146,3 @@ def _():
 
         for x, y in cases:
             test.assert_equals(calc(x), y)
-
