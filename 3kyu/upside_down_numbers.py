@@ -43,6 +43,30 @@ def upsidedown(x, y):
     """Count the number of upside-down numbers within the range [x, y]."""
 
 
+'''
+
+1 0 - 100
+
+4 4
+
+100 - 1000
+
+
+
+101
+609
+906
+
+
+11
+88
+69
+96
+
+
+
+
+'''
 
 
 
