@@ -44,11 +44,6 @@ Total spinners: 718749
 12345678900000000 has 718749 spinners.
 Between 100000 - 12345678900000000 there are 718.650 spinners. 718.650
 
-1 0 0 
-4 3 1
-
-4*3*1
-
 
 '''
 
@@ -63,15 +58,21 @@ def pblt(letter):
     return len([n for n in spinners if int(letter) <= int(n)])  # null
 
 
+def detect_max_num(num):
+    ''' return nearest lower num from wich is in spinners.keys '''
+    nums = []
+    for n in spinners.keys():
+        if int(n) < int(num):
+            nums.append(n)
+    return nums[-1]
 
 
-# # 0 ... n-1
-# def pblt_(letter):
-#     if letter == '0':
-#         return [x for x in spinners.keys() if int(x) > 0]
-
-#     else:
-#         return [x for x in spinners.keys() if int(x) > int(letter)]
+def check_if_spinner(num):
+    '''check if number is spinnable'''
+    for x in num:
+        if x not in spinners.keys():
+            return False
+    return True
 
 
 def upsidedown(x, y):
@@ -101,6 +102,11 @@ def upsidedown(x, y):
     # case x = 0 und y < 10
     if len_x == 1 and len_y == 2:
         return 3
+
+    print("________")
+
+    print(check_if_spinner(y))
+    print("________")
 
     poss = 1
     # gerade
@@ -146,6 +152,6 @@ def upside_down_numbers():
     def example_tests():
         test.assert_equals(upsidedown('0', '10'), 3)
         test.assert_equals(upsidedown('6', '25'), 2)
-        # test.assert_equals(upsidedown('10', '100'), 4)
+        test.assert_equals(upsidedown('10', '100'), 4)
         test.assert_equals(upsidedown('100', '1000'), 12)
-        # test.assert_equals(upsidedown('100000', '12345678900000000'), 718650)
+        test.assert_equals(upsidedown('100000', '12345678900000000'), 718650)
