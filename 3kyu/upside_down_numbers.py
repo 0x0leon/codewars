@@ -75,74 +75,20 @@ def check_if_spinner(num):
     return True
 
 
+def count_digits(num):
+    return len(num)
+
+
+def generate_multiplies(x, y):
+    return [10 ** x for x in range(len(x)-1, len(y))]
+
+
 def upsidedown(x, y):
     """Count the number of upside-down numbers within the range [x, y]."""
 
-    '''
-    generell:
-        [0] darf keine 0 sein
-        [len/2] darf keine 6 oder 9 sein
-
-    gerade ->   [ a, b, c ]      ->      b = 3
-    ungerade -> [ a, b, c, d ]   ->      [len/2] darf keine 6 oder 9 sein
-
-    1. check % 2
-
-    2. check possibilities for every number (<=)
-
-    split by 10 potenzen 10 -> 99   - 100 -> 999    - 1000 -> 9999  - 10000 -> 99999
-
-    3. choose next digit ranges
-
-    '''
-
-    len_x = len(x)
-    len_y = len(y)
-
-    # case x = 0 und y < 10
-    if len_x == 1 and len_y == 2:
-        return 3
-
-    print("________")
-
-    print(check_if_spinner(y))
-    print("________")
-
-    poss = 1
-    # gerade
-    if len_x % 2 == 0:
-        pre = x[:len_x//2]
-
-        post = x[len_x//2:]
-        print(pre)
-
-        for char in pre:
-            print(f'{char} -- {pblt(char)}')
-            poss *= pblt(char)
-
-        for char in post:
-            print('1')
-            poss *= 1
-    # ungerade
-    else:
-        pre = x[:len_x//2]
-        mid = x[len_x//2]
-        post = x[(len_x//2)+1:]
-        print(pre, mid, post)
-        print(len_x, "len-------", len_x//2)
-
-        for char in pre:
-            print(f'{char} -- {pblt(char)}')
-            poss *= pblt(char)
-
-        for char in post:
-            print('1')
-            poss *= 1
-
-        poss *= 3
-
-    print(f'spinners {poss}')
-    return poss
+    
+    print(x, y)
+    print(generate_multiplies(x, y))
 
 
 @test.describe("Upside down numbers")
