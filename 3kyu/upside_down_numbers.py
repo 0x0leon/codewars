@@ -25,6 +25,8 @@ Range 10000000000000 - 99999999999999 has 62500 spinners
 Range 100000000000000 - 999999999999999 has 187500 spinners
 Range 1000000000000000 - 9999999999999999 has 312500 spinners
 
+
+
 Subtotal of spinners from 1 to 16 digits: 624999
 
 Range 10000000000000000 - 11999999999999999 has 93750 spinners.
@@ -58,15 +60,6 @@ def pblt(letter):
     return len([n for n in spinners if int(letter) <= int(n)])  # null
 
 
-def detect_max_num(num):
-    ''' return nearest lower num from wich is in spinners.keys '''
-    nums = []
-    for n in spinners.keys():
-        if int(n) < int(num):
-            nums.append(n)
-    return nums[-1]
-
-
 def check_if_spinner(num):
     '''check if number is spinnable'''
     for x in num:
@@ -75,20 +68,64 @@ def check_if_spinner(num):
     return True
 
 
-def count_digits(num):
-    return len(num)
-
-
 def generate_multiplies(x, y):
     return [10 ** x for x in range(len(x)-1, len(y))]
+
+
+def x_to_tenth(x):
+    nearest = str(10 ** len(x))
+    pblts = []
+    if len(x) == 1:
+        return nearest, pblt(x)
+
+    elif x == nearest:
+        return nearest, []
+    else:
+        for n in x:
+            pblts.append(pblt(n))
+
+    return nearest, pblts
+
+
+def tenth_to_tenth(xtt, tty):
+    for i in range(len(xtt), len(tty)):
+        print(10 ** i)
+
+
+def tenth_to_y(y):
+    nearest = str(10 ** (len(y) - 1))
+
+    if y == nearest:
+        return y, []
+
+    pblts = []
+    for n in nearest:
+        # print(pblt(n))
+        pblts.append(pblt(n))
+
+    return nearest, pblts
+
+
+def calc_pblt(nums):
+    i = 1
+    for n in nums:
+        i *= n
+    return i
 
 
 def upsidedown(x, y):
     """Count the number of upside-down numbers within the range [x, y]."""
 
-    
-    print(x, y)
-    print(generate_multiplies(x, y))
+    print(f'x {x}, y {y}')
+
+    nearest_x, pblts_x = x_to_tenth(x)
+    nearest_y, pblts_y = tenth_to_y(y)
+
+    print(x_to_tenth(x))
+    print(tenth_to_y(y))
+
+    tenth_to_tenth(nearest_x, nearest_y)
+
 
 
 @test.describe("Upside down numbers")
