@@ -1,30 +1,41 @@
 import codewars_test as test
 
 
-spinners = {'0': '0', '1': '1', '6': '9', '8': '8', '9': '6'}
+class Solution:
+    def upsidedown(self, low: str, high: str) -> int:
+        # Helper function to generate strobogrammatic numbers of length 'length'
+        def generate_strobogrammatic(length):
+            # Base case for a strobogrammatic number of length 0 is an empty string
+            if length == 0:
+                return ['']
+            # Base case for length 1 (single digit strobogrammatic numbers)
+            if length == 1:
+                return ['0', '1', '8']
+            sub_ans = []
+            # Recursive call to get the inner strobogrammatic number
+            for sub_number in generate_strobogrammatic(length - 2):
+                # Adding the strobogrammatic pairs to the sub_number
+                for pair in ('11', '88', '69', '96'):
+                    sub_ans.append(pair[0] + sub_number + pair[1])
+                # Numbers like '060', '080' etc. cannot be at the beginning or end
+                # So we add them only when we're not at the outermost level
+                if length != num_length:
+                    sub_ans.append('0' + sub_number + '0')
+            return sub_ans
 
+        min_length, max_length = len(low), len(high)
+        low, high = int(low), int(high)
+        count = 0  # Counter for strobogrammatic numbers within the range
 
-def find_nearest_spinner_num():
+        # Loop through all lengths from min_length to max_length
+        for num_length in range(min_length, max_length + 1):
+            # generate strobogrammatic numbers of length 'num_length'
+            for num_str in generate_strobogrammatic(num_length):
+                # Convert the string to an integer and check if it's within range
+                if low <= int(num_str) <= high:
+                    count += 1
+        return count  # Return the count of strobogrammatic numbers within the range
 
-    pass
-
-
-def get_pblt(x, y):
-
-    pblt = []
-
-    pblt.append(x)
-
-    n_x = x
-    for i in range(len(x), len(y)):
-        n_x += '0'
-
-        print(n_x)
-
-
-def upsidedown(x, y):
-
-    
 
 @test.describe("Upside down numbers")
 def upside_down_numbers():
