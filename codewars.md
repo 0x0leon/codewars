@@ -2,33 +2,17 @@
 
 
 
-0 - 10
-10 - 19
-100 - 999
-1000 - 9999
-10000 - 99999
-100000 - 999999
-
-```python
-def check_pblt(x):
-	return dict(list(spinners.items())[x:])
-
-def generate_pre_number(x, y):
-	'''recursive function to find all following bases of 10'''
-	bases = []
-	# check if number % 10
-		# if not then find next % 10
-	# generate 10 * 10 if number kleiner y 
-	''' 10 - 100 - 1000 '''
-	if x % 10 == 0:
-		bases.append(x)
-	else:
-		# findNext10Base()
-		# add to bases
-	return generate_pre_numbers(x * 10, y)
-
-
-for x in num:
-	check_pblt(x)
 	
-```
+	len(x) = 6
+	x = 	234234
+		999999
+		333111 = 9
+		((10 ** len(x))-1) # next from 234234
+		
+	len(y) = 16 
+		1.000.000.000.000.000
+	-1	  999.999.999.999.999	
+8978937498538945
+
+	453
+	

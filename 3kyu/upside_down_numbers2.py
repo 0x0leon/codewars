@@ -1,40 +1,38 @@
 import codewars_test as test
 
 
-class Solution:
-    def upsidedown(self, low: str, high: str) -> int:
-        # Helper function to generate strobogrammatic numbers of length 'length'
-        def generate_strobogrammatic(length):
-            # Base case for a strobogrammatic number of length 0 is an empty string
-            if length == 0:
-                return ['']
-            # Base case for length 1 (single digit strobogrammatic numbers)
-            if length == 1:
-                return ['0', '1', '8']
-            sub_ans = []
-            # Recursive call to get the inner strobogrammatic number
-            for sub_number in generate_strobogrammatic(length - 2):
-                # Adding the strobogrammatic pairs to the sub_number
-                for pair in ('11', '88', '69', '96'):
-                    sub_ans.append(pair[0] + sub_number + pair[1])
-                # Numbers like '060', '080' etc. cannot be at the beginning or end
-                # So we add them only when we're not at the outermost level
-                if length != num_length:
-                    sub_ans.append('0' + sub_number + '0')
-            return sub_ans
+def upsidedown(lower_bound, upper_bound):
+    valid_pairs = [('0', '0'), ('1', '1'), ('6', '9'), ('8', '8'), ('9', '6')]
+    memo = {}
 
-        min_length, max_length = len(low), len(high)
-        low, high = int(low), int(high)
-        count = 0  # Counter for strobogrammatic numbers within the range
-
-        # Loop through all lengths from min_length to max_length
-        for num_length in range(min_length, max_length + 1):
-            # generate strobogrammatic numbers of length 'num_length'
-            for num_str in generate_strobogrammatic(num_length):
-                # Convert the string to an integer and check if it's within range
-                if low <= int(num_str) <= high:
+    def helper(n, is_limit, prefix, suffix):
+        if n == 0:
+            return 1 if not is_limit or prefix + suffix <= upper_bound else 0
+        if n == 1:
+            count = 0
+            for digit in '018':
+                if not is_limit or prefix + digit + suffix <= upper_bound:
                     count += 1
-        return count  # Return the count of strobogrammatic numbers within the range
+            return count
+        if (n, is_limit) in memo and not is_limit:
+            return memo[(n, is_limit)]
+
+        count = 0
+        for a, b in valid_pairs:
+            if n != len(lower_bound) or a != '0':  # Avoid leading zero
+                new_prefix = a + prefix
+                new_suffix = suffix + b
+                if not is_limit or new_prefix + ('0' * (n - 2)) + new_suffix <= upper_bound:
+                    count += helper(n - 2, is_limit and new_prefix + ('9' * (n - 2)) +
+                                    new_suffix >= lower_bound, new_prefix, new_suffix)
+
+        if not is_limit:
+            memo[(n, is_limit)] = count
+        return count
+
+    total_count = sum(helper(n, True, '', '')
+                      for n in range(len(lower_bound), len(upper_bound) + 1))
+    return total_count
 
 
 @test.describe("Upside down numbers")
